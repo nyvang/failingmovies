@@ -45,14 +45,16 @@ public class MovieDAO extends DAO{
     {
        try
        {
+           int id = getHighestIdentifier() + 1;
            PreparedStatement pstmt = getPreparedStatement("INSERT INTO movies "
-                   + "(navn, aarstal, instruktion, skuespiller, skuespiller2, genre) VALUES(?,?,?,?,?,?)");
-           pstmt.setString(1, navn);
-           pstmt.setInt(2, aarstal);
-           pstmt.setString(3, instruktion);
-           pstmt.setString(4, skuespiller);
-           pstmt.setString(5, skuespiller2);
-           pstmt.setString(6, genre);
+                   + "(id, moviename, prodyear, instructor, actor, actor2, genre) VALUES(?,?,?,?,?,?,?)");
+           pstmt.setInt(1, id);
+           pstmt.setString(2, navn);
+           pstmt.setInt(3, aarstal);
+           pstmt.setString(4, instruktion);
+           pstmt.setString(5, skuespiller);
+           pstmt.setString(6, skuespiller2);
+           pstmt.setString(7, genre);
            pstmt.execute();
        }
        catch (SQLException sqlex)
@@ -126,41 +128,31 @@ public class MovieDAO extends DAO{
         }//end finally
         return resultFound;
     }//end method findMovies
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public String login(String loginName, String password)
+      
+    /**
+     * As some DB´s do not autoincrement identifier, this method returns the highest identifier.
+     * @return id the highest used number in the database
+     */
+    public int getHighestIdentifier()
     {
-        String returnedName = "";
+        int id;
         try
         {
-            PreparedStatement pstmt = getPreparedStatement("SELECT name FROM users WHERE (login = ?) AND (password = ?)");
-            pstmt.setString(1, loginName);
-            pstmt.setString(2, password);
+            PreparedStatement pstmt = getPreparedStatement("SELECT MAX(identifier) FROM movies");
             ResultSet rsr = null;
             rsr = pstmt.executeQuery();
             rsr.next();
-            returnedName = rsr.getString("name");
-
-        }
+            id = rsr.getInt("id");
+        }//end try
         catch (SQLException sqlex)
         {
-            return "";
+            System.err.println("Error while getting highest Identifier from DB");
+            return -1;
         }//end catch
         finally
         {
             close();
         }//end finally
-        return returnedName;
-    }//end login
+        return id;
+    }//end getHighestIdentifier method
 }//end UserDAO class
