@@ -15,11 +15,32 @@ import model.Movie;
  */
 public class MovieController {
 
-    public boolean createMovie(String navn, int aarstal, String instruktion, String skuespiller, String skuespiller2, String genre)
+    /**
+     * 
+     * @param navn
+     * @param aarstal
+     * @param instruktion
+     * @param skuespiller
+     * @param skuespiller2
+     * @param genre
+     * @return 
+     */
+    public static boolean createMovie(String navn, int aarstal, String instruktion, String skuespiller, String skuespiller2, String genre)
     {
         return MovieDAO.getInstance().createMovie(navn, aarstal, instruktion, skuespiller, skuespiller2, genre);
     }
  
+    /**
+     * 
+     * @param id
+     * @param navn
+     * @param aarstal
+     * @param instruktion
+     * @param skuespiller
+     * @param skuespiller2
+     * @param genre
+     * @return 
+     */
     public ArrayList<Movie> findMovies(int id, String navn, int aarstal, String instruktion, String skuespiller, String skuespiller2, String genre)
     {
         return MovieDAO.getInstance().findMovies(id, navn, aarstal, instruktion, skuespiller, skuespiller2, genre);

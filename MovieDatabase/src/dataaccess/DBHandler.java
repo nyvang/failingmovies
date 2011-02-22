@@ -28,10 +28,12 @@ public class DBHandler {
      */
     private DBHandler() 
     {
-        addressToDriver = "com.mysql.jdbc.Driver";
-        connectionString = "jdbc:mysql://welovefailing.com:3306/Server";
-        dbUser = "webuser";
-        dbPassword = "web";
+         addressToDriver = "org.apache.derby.jdbc.ClientDriver";
+        connectionString = "jdbc:derby://localhost:1527/movies";
+//        addressToDriver = "com.mysql.jdbc.Driver";
+//        connectionString = "jdbc:mysql://welovefailing.com:3306/Movies";
+//        dbUser = "webuser";
+//        dbPassword = "web";
     }
 
     /**
