@@ -45,4 +45,13 @@ public class MovieController {
     {
         return MovieDAO.getInstance().findMovies(id, navn, aarstal, instruktion, skuespiller, skuespiller2, genre);
     }
+
+    /**
+     * Find all movies stored in the database and returns them to the GUI
+     * @return ArrayList<Movie> with results
+     */
+    public ArrayList<Movie> findAllMovies()
+    {
+        return MovieDAO.getInstance().findAllMovies();
+    }
 }

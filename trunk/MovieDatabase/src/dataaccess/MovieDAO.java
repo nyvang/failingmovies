@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Movie;
 
 /**
@@ -128,7 +130,38 @@ public class MovieDAO extends DAO{
         }//end finally
         return resultFound;
     }//end method findMovies
-      
+
+    public ArrayList<Movie> findAllMovies()
+    {
+        ArrayList<Movie> resultFound = new ArrayList<Movie>();
+        try{
+            PreparedStatement pstmt = getPreparedStatement("SELECT * FROM movies");
+            ResultSet rs = null;
+            rs = pstmt.executeQuery();
+            rs.next();
+
+            while(rs.next())
+            {
+                int idInt = rs.getInt("id");
+                String navnString = rs.getString("navn");
+                int aarstalInt = rs.getInt("aarstal");
+                String instruktionString = rs.getString("instruktion");
+                String skuespillerString = rs.getString("skuespiller");
+                String skuespiller2String = rs.getString("skuespiller2");
+                String genreString = rs.getString("genre");
+                Movie m = new Movie(idInt, navnString, aarstalInt, instruktionString, skuespillerString, skuespiller2String, genreString);
+                resultFound.add(m);
+            }//end while
+
+        }
+        catch (SQLException sqlex)
+        {
+            Logger logger = Logger.getLogger("SQL Logger");
+            logger.log(Level.SEVERE, "Checked exception found in findAllMovies() in MovieDAO");
+        }
+        return resultFound;
+    }//end findAllMovies
+
     /**
      * As some DB´s do not autoincrement identifier, this method returns the highest identifier.
      * @return id the highest used number in the database
