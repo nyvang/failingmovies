@@ -12,7 +12,10 @@
 package gui;
 
 import control.MovieController;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
+import model.Movie;
 
 /**
  * Initializes the GUI and handles user input and system output.
@@ -43,7 +46,7 @@ public class MainGUI extends javax.swing.JFrame {
         movieListPanel = new javax.swing.JPanel();
         listePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listTextPane = new javax.swing.JTextPane();
+        showAllMovieList = new javax.swing.JList();
         infoPanel = new javax.swing.JPanel();
         findButton = new javax.swing.JButton();
         createMoviePanel = new javax.swing.JPanel();
@@ -106,7 +109,8 @@ public class MainGUI extends javax.swing.JFrame {
 
         listePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Liste"));
 
-        jScrollPane1.setViewportView(listTextPane);
+        showAllMovieList.setEnabled(false);
+        jScrollPane1.setViewportView(showAllMovieList);
 
         javax.swing.GroupLayout listePanelLayout = new javax.swing.GroupLayout(listePanel);
         listePanel.setLayout(listePanelLayout);
@@ -114,8 +118,8 @@ public class MainGUI extends javax.swing.JFrame {
             listePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(listePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addContainerGap())
         );
         listePanelLayout.setVerticalGroup(
             listePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,6 +142,11 @@ public class MainGUI extends javax.swing.JFrame {
         );
 
         findButton.setText("Find alle film");
+        findButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout movieListPanelLayout = new javax.swing.GroupLayout(movieListPanel);
         movieListPanel.setLayout(movieListPanelLayout);
@@ -362,6 +371,37 @@ public class MainGUI extends javax.swing.JFrame {
         clearCreateMovieFields();
     }//GEN-LAST:event_resetFieldsButtonActionPerformed
 
+    private void findButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findButtonActionPerformed
+        findAllMovies();
+    }//GEN-LAST:event_findButtonActionPerformed
+
+    /**
+     * Displays the found Movie objects in the JList (showAllMovieList)
+     */
+    public void findAllMovies()
+    {
+       ArrayList<Movie> found = movieController.findAllMovies();
+
+       if(!found.isEmpty())
+       {
+           showAllMovieList.setEnabled(true);
+           int index = 0;
+           while(found.size() > index)
+           {
+               showAllMovieList.setModel((ListModel) found.get(index));
+               index++;
+           }//end while
+       }//end if
+       else
+       {
+           JOptionPane.showMessageDialog(this,
+            "Ingen film fundet i databasen\n",
+            "Pist væk...",
+            JOptionPane.INFORMATION_MESSAGE);
+       }//end else
+
+    }//end findAllMovies()
+
     /**
      * Initiate save movie through all layers. Gets parameters from the user input in GUI
      * @return true if success else false
@@ -451,13 +491,13 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextPane listTextPane;
     private javax.swing.JPanel listePanel;
     private javax.swing.JPanel movieListPanel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JButton resetFieldsButton;
     private javax.swing.JButton saveButton;
     private javax.swing.JPanel searchMoviePanel;
+    private javax.swing.JList showAllMovieList;
     private javax.swing.JPanel welcomePanel;
     private javax.swing.JTextField yearTextField;
     // End of variables declaration//GEN-END:variables
