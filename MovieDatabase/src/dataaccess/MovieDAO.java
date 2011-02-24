@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Movie;
@@ -135,19 +136,19 @@ public class MovieDAO extends DAO{
     {
         ArrayList<Movie> resultFound = new ArrayList<Movie>();
         try{
-            PreparedStatement pstmt = getPreparedStatement("SELECT * FROM movies");
+            PreparedStatement pstmt = getPreparedStatement("SELECT * FROM app.movies");
             ResultSet rs = null;
             rs = pstmt.executeQuery();
-            rs.next();
 
             while(rs.next())
             {
+                System.out.println("Inde i sql");
                 int idInt = rs.getInt("id");
-                String navnString = rs.getString("navn");
-                int aarstalInt = rs.getInt("aarstal");
-                String instruktionString = rs.getString("instruktion");
-                String skuespillerString = rs.getString("skuespiller");
-                String skuespiller2String = rs.getString("skuespiller2");
+                String navnString = rs.getString("moviename");
+                int aarstalInt = rs.getInt("prodyear");
+                String instruktionString = rs.getString("instructor");
+                String skuespillerString = rs.getString("actor");
+                String skuespiller2String = rs.getString("actor2");
                 String genreString = rs.getString("genre");
                 Movie m = new Movie(idInt, navnString, aarstalInt, instruktionString, skuespillerString, skuespiller2String, genreString);
                 resultFound.add(m);

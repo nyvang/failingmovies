@@ -7,6 +7,7 @@ package control;
 
 import dataaccess.MovieDAO;
 import java.util.ArrayList;
+import java.util.List;
 import model.Movie;
 
 /**
@@ -54,4 +55,6 @@ public class MovieController {
     {
         return MovieDAO.getInstance().findAllMovies();
     }
+    
+    
 }
