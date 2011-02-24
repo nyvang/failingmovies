@@ -13,6 +13,8 @@ package gui;
 
 import control.MovieController;
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import model.Movie;
@@ -29,6 +31,7 @@ public class MainGUI extends javax.swing.JFrame {
     /** Creates new form MainGUI */
     public MainGUI() {
         initComponents();
+        movieController = new MovieController();
     }
 
     /** This method is called from within the constructor to
@@ -109,7 +112,6 @@ public class MainGUI extends javax.swing.JFrame {
 
         listePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Liste"));
 
-        showAllMovieList.setEnabled(false);
         jScrollPane1.setViewportView(showAllMovieList);
 
         javax.swing.GroupLayout listePanelLayout = new javax.swing.GroupLayout(listePanel);
@@ -377,22 +379,36 @@ public class MainGUI extends javax.swing.JFrame {
 
     /**
      * Displays the found Movie objects in the JList (showAllMovieList)
+     *  jTable1.setModel(new javax.swing.table.DefaultTableModel(data, columnNames)
+     * 
      */
     public void findAllMovies()
     {
-       ArrayList<Movie> found = movieController.findAllMovies();
-
+          
+       final ArrayList<Movie> found = movieController.findAllMovies();
+       System.out.println(found.size());
+       
+   
        if(!found.isEmpty())
        {
-           showAllMovieList.setEnabled(true);
-           int index = 0;
-           while(found.size() > index)
+           String[] list = new String[found.size()];
+           int counter = 0;        
+           for(Movie name : found)
            {
-               showAllMovieList.setModel((ListModel) found.get(index));
-               index++;
-           }//end while
-       }//end if
-       else
+               list[counter] = name.getNavn();
+               counter++;
+           }
+            final String[] finalList = list;
+            showAllMovieList.setModel(new javax.swing.AbstractListModel()
+            {
+                
+                public int getSize() { return finalList.length; }
+                public Object getElementAt(int i) { return finalList[i]; }
+            });
+       }
+       
+       
+      // else
        {
            JOptionPane.showMessageDialog(this,
             "Ingen film fundet i databasen\n",
